@@ -1,9 +1,89 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% load static %}
 <!-- 바디 영역 -->
 <div class="main_body">
-    <div class="left_body"> <!-- 왼쪽 영역 -->
+    <div class="left_body">
+        <!-- 왼쪽 영역 -->
+
+        <!-- 피드 박스1 -->
+        {% for feed in feeds %}
+        {% csrf_token %}
+        <div class="border feed_box">
+            <!-- 피드 작성자 이름 영역 -->
+            <div class="feed_name" style="display: flex; flex-direction: row; justify-content: space-between;">
+                <div style="display: flex; flex-direction: row; align-items: center;">
+                    <div class="profile_box">
+                        <img class="profile_img" src="{{ feed.profile_image }}">
+                    </div>
+                    <span class="feed_name_txt"> {{ feed.user_id }} </span>
+                </div>
+                <div style="width: 40px;" id="home_feed_function_bt"> ... </div>
+            </div>
+            <!-- 피드 이미지 -->
+            <img class="feed_img"
+                src="{% get_media_prefix %}{{ feed.image }}">
+            <!-- 피드 아이콘 -->
+            <div class="feed_icon">
+                <div>
+                    <span class="material-icons-outlined">
+                        favorite_border
+                    </span>
+                    <span id="left_box_feed_comment_bt" class="material-icons-outlined">
+                        mode_comment
+                        <!-- 클릭시 모달 팝업 오픈 -->
+                    </span>
+                    <span class="material-icons-outlined">
+                        send
+                    </span>
+                </div>
+                <div>
+                    <span class="material-icons-outlined">
+                        turned_in_not
+                    </span>
+                </div>
+            </div>
+            <!-- 좋아요 표시 영역 -->
+            <div class="feed_like">
+                <p class="feed_txt"> <b>좋아요 {{ feed.like_count }}개</b></p>
+            </div>
+            <!-- 피드 본문 내용 -->
+            <div class="feed_content">
+                <p class="feed_txt"> <b>{{ feed.user_id }}</b> {{ feed.content }}
+            </div>
+            <!-- 피드 댓글 -->
+            <div class="feed_reply">
+                <span class="feed_txt"> <b> hanmariyang </b> #가마보코3M #가을캠핑 #텐트추천 #DOD </span>
+                <span class="feed_txt"> <b> aaaa </b> 멋져욧 </span>
+                <span class="feed_txt"> <b> adsfg34 </b> 대박 </span>
+            </div>
+            <!-- 피드 댓글달기 -->
+            <div
+                style="display: flex; flex-direction: row; justify-content: space-between; padding: 10px 10px 0 10px; border-top: solid 1px lightgray;">
+                <div style="display: flex; flex-direction: row;">
+                    <span class="material-icons-outlined">
+                        sentiment_satisfied
+                    </span>
+                    <textarea style="width: 360px; height: 30px; border: none; outline: none;" placeholder="댓글 달기..."
+                        onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
+                </div>
+                <div style="width: 40px;">
+
+                </div>
+                <a class="link_txt">
+                    게시
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+        <!-- 피드 박스1 -->
+
+
+
+
+
+
         <!-- 피드 박스1 -->
         <div class="border feed_box">
             <!-- 피드 작성자 이름 영역 -->
@@ -26,7 +106,8 @@
                         favorite_border
                     </span>
                     <span id="left_box_feed_comment_bt" class="material-icons-outlined">
-                        mode_comment <!-- 클릭시 모달 팝업 오픈 -->
+                        mode_comment
+                        <!-- 클릭시 모달 팝업 오픈 -->
                     </span>
                     <span class="material-icons-outlined">
                         send
@@ -94,7 +175,8 @@
                         favorite_border
                     </span>
                     <span id="left_box_feed_comment_bt" class="material-icons-outlined">
-                        mode_comment <!-- 클릭시 모달 팝업 오픈 -->
+                        mode_comment
+                        <!-- 클릭시 모달 팝업 오픈 -->
                     </span>
                     <span class="material-icons-outlined">
                         send
@@ -390,7 +472,8 @@
                                 <span class="feed_name_txt" style="font-size: 15pt;"> hanmariyang </span>
                             </div>
                             <div style="width: 40px;"></div>
-                            <div style="width: 40px;" id="home_feed_comment_modal_function_modal_bt" style="cursor: pointer;"> ... </div>
+                            <div style="width: 40px;" id="home_feed_comment_modal_function_modal_bt"
+                                style="cursor: pointer;"> ... </div>
                         </div>
                         <!-- 모달 팝업 창 본문 -->
                         <div style="display: flex; flex-direction: column;">
@@ -561,8 +644,8 @@
         $('#left_box_feed_comment_bt').click(function () {
             $('#home_feed_modal').css({
                 display: 'flex',
-                "top": (($(window).height()-$("#home_feed_modal").outerHeight())/2+$(window).scrollTop())+"px",
-                "left": (($(window).width()-$("#home_feed_modal").outerWidth())/2+$(window).scrollLeft())+"px"
+                "top": (($(window).height() - $("#home_feed_modal").outerHeight()) / 2 + $(window).scrollTop()) + "px",
+                "left": (($(window).width() - $("#home_feed_modal").outerWidth()) / 2 + $(window).scrollLeft()) + "px"
             });
 
             $(document.body).css({
@@ -586,8 +669,8 @@
         $('#home_feed_function_bt').click(function () {
             $('#home_feed_function_modal').css({
                 display: 'flex',
-                "top": (($(window).height()-$("#home_feed_function_modal").outerHeight())/2+$(window).scrollTop())+"px",
-                "left": (($(window).width()-$("#home_feed_function_modal").outerWidth())/2+$(window).scrollLeft())+"px"
+                "top": (($(window).height() - $("#home_feed_function_modal").outerHeight()) / 2 + $(window).scrollTop()) + "px",
+                "left": (($(window).width() - $("#home_feed_function_modal").outerWidth()) / 2 + $(window).scrollLeft()) + "px"
             });
         });
 
@@ -602,8 +685,8 @@
         $('#home_feed_comment_modal_function_modal_bt').click(function () {
             $('#home_feed_comment_modal_function_modal').css({
                 display: 'flex',
-                "top": (($(window).height()-$("#home_feed_comment_modal_function_modal").outerHeight())/2+$(window).scrollTop())+"px",
-                "left": (($(window).width()-$("#home_feed_comment_modal_function_modal").outerWidth())/2+$(window).scrollLeft())+"px"
+                "top": (($(window).height() - $("#home_feed_comment_modal_function_modal").outerHeight()) / 2 + $(window).scrollTop()) + "px",
+                "left": (($(window).width() - $("#home_feed_comment_modal_function_modal").outerWidth()) / 2 + $(window).scrollLeft()) + "px"
             });
         });
 
