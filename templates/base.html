@@ -561,6 +561,9 @@
             let content = $('#input_feed_content').val();
             let user_id = "hanmariyang"
             let profile_image = "https://avatars.githubusercontent.com/u/113072884?v=4"
+            let created_at = new Date();
+            let updated_at = new Date();  
+
 
             let fd = new FormData();
 
@@ -569,6 +572,8 @@
             fd.append('content', content);
             fd.append('user_id', user_id);
             fd.append('profile_image', profile_image);
+            fd.append('created_at', created_at);
+            fd.append('updated_at', updated_at);
             fd.append('csrfmiddlewaretoken', "{{ csrf_token }}");
 
             $.ajax({

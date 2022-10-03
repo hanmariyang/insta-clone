@@ -1,5 +1,6 @@
 # tweet/views.py
 from email.mime import image
+from turtle import update
 from uuid import uuid4
 from django.shortcuts import render, redirect
 from rest_framework.response import Response
@@ -15,7 +16,7 @@ def home(request):
     if request.method == 'GET' :
         user = request.user.is_authenticated  # 사용자가 인증을 받았는지 (로그인이 되어있는지)
         if user:
-            feeds = Feed.objects.all()
+            feeds = Feed.objects.all().order_by('-created_at')
             return render(request, 'content/home.html', {'feeds': feeds})
         else:
             return redirect('/sign-in')
@@ -25,7 +26,7 @@ def content(request):
     if request.method == 'GET':
         user = request.user.is_authenticated
         if user:
-            feeds = Feed.objects.all()
+            feeds = Feed.objects.all().order_by('-created_at')
             return render(request, 'content/home.html', {'feeds': feeds})
         else:
             return redirect('/sign-in')
@@ -48,7 +49,10 @@ class UploadFeed(APIView):
         content = request.data.get('content')
         user_id = request.data.get('user_id')
         profile_image = request.data.get('profile_image')
+        
+        created_at = request.data.get('created_at')
+        updated_at = request.data.get('updated_at')
 
-        Feed.objects.create(image=image, content=content, user_id=user_id, profile_image=profile_image, like_count=0)
+        Feed.objects.create(image=image, content=content, user_id=user_id, profile_image=profile_image, like_count=0, created_at=created_at, updated_at=updated_at)
 
         return Response(status=200)

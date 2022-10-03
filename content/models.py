@@ -8,3 +8,5 @@ class Feed(models.Model):
     user_id = models.TextField()
     like_count = models.IntegerField()
     profile_image = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
