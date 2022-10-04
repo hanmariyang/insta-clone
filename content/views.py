@@ -57,6 +57,17 @@ class UploadFeed(APIView):
 
         return Response(status=200)
 
+def DeleteFeed(request, id):
+    feed = Feed.objects.get(id=id)
+    feed.delete()
+    return redirect('/content')
+
+def EditFeed(request, id):
+    return 
+
+
+
+
 
 def profile(request):
     return render(request, 'content/profile.html')

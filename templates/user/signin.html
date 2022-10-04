@@ -68,33 +68,29 @@
         왼쪽 영역
     </div>
 	<div class="sign_in_right_box" style="display: inline-block; margin: auto auto auto 10px">
-    <div class="flex-direction_row" style="width: 100%; text-align: center; place-items: center; min-height: 100vh; background-color: #139f73;">
-        <div class="sign_in_left_box" style="display: inline-block; margin: auto 10px auto auto;">
-            <h2 class="title-center"> 로그인</h2>
-            <form class="form-area" action="/sign-in/" method="post">
-                {% csrf_token %}
-                <div class="form-group mt-2 mb-2">
-                    <label for="email">이메일</label>
-                    <input type="text" class="form-control" id="email" name="email">
-                </div>
-                <div class="form-group mt-2 mb-2">
-                    <label for="password">비밀번호</label>
-                    <input type="password" class="form-control" id="password" name="password">
-                </div>
-                <hr>
-                {% if error %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                     </div>
-                {% endif %}
-                <div style="float: right">
-                    <button type="submit" class="btn btn-primary">로그인</button>
-                    <a href="{% provider_login_url 'google' %}">구글 로그인</a><br>
-                    <a href="/sign-up" class="btn btn-secondary">회원가입 페이지로</a>
-                </div>
-            </form>
-
-        </div>
+        <h2 class="title-center"> 로그인</h2>
+        <form class="form-area" action="/sign-in/" method="post">
+            {% csrf_token %}
+            <div class="form-group mt-2 mb-2">
+                <label for="email">이메일</label>
+                <input type="text" class="form-control" id="email" name="email">
+            </div>
+            <div class="form-group mt-2 mb-2">
+                <label for="password">비밀번호</label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <hr>
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                    </div>
+            {% endif %}
+            <div style="float: right">
+                <button type="submit" class="btn btn-primary">로그인</button>
+                <a href="{% provider_login_url 'google' %}">구글 로그인</a><br>
+                <a href="/sign-up" class="btn btn-secondary">회원가입 페이지로</a>
+            </div>
+        </form>
     </div>
 </div>
 
