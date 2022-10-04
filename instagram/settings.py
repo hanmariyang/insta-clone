@@ -27,8 +27,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites', 
     'content',
-    'user'
+    'user',
+    
+     #allauth #추가
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    #provider #추가
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+
 ]
 
 MIDDLEWARE = [
@@ -54,6 +65,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                 # `allauth` needs this from django
+                
             ],
         },
     },
@@ -116,11 +129,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 AUTH_USER_MODEL = 'user.UserModel'
 
-
 # mysite/settings.py
 
 # 각 media 파일에 대한 URL Prefix
 MEDIA_URL = '/media/' # 항상 / 로 끝나도록 설정
 # MEDIA_URL = 'http://static.myservice.com/media/' 다른 서버로 media 파일 복사시
 # 업로드된 파일을 저장할 디렉토리 경로
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+AUTHENTICATION_BACKENDS = (
+    # 'allauth' specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+    #Needed to login by username in Django admin, regardless of 'allauth'
+    'django.contrib.auth.backends.ModelBackend',
+    
+)
+
+SITE_ID = 2
+LOGIN_REDIRECT_URL = '/'
+

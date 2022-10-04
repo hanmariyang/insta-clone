@@ -4,7 +4,13 @@ from django.http import HttpResponse
 from django.contrib.auth import get_user_model #사용자가 있는지 검사하는 함수
 from django.contrib import auth # 사용자 auth 기능
 from django.contrib.auth.decorators import login_required
-
+from django.views.decorators.http import require_POST
+from django.contrib.auth.forms import (
+    UserCreationForm,
+    AuthenticationForm,
+    PasswordChangeForm,
+)
+from django.contrib.auth import update_session_auth_hash
 
 def sign_up_view(request):
     if request.method == 'GET':
@@ -20,7 +26,7 @@ def sign_up_view(request):
             return render(request, 'user/signup.html', {'error': '패스워드를 확인 해 주세요!'})
         else:
             if email == '' or password == '':
-                return render(request, 'user/signup.html', {'error': '이메일과과 패스워드를 입력해주세요.'})
+                return render(request, 'user/signup.html', {'error': '이메일과 패스워드를 입력해주세요.'})
             
             exist_email = get_user_model().objects.filter(email=email)
             if exist_email:
@@ -54,3 +60,22 @@ def sign_in_view(request):
 def logout(request):   #로그아웃 함수
     auth.logout(request) # 인증 되어있는 정보를 없애기
     return redirect("/")
+
+@login_required
+def delete(request):   #회원탈퇴
+    if request.user.is_authenticated:
+        request.user.delete()
+    return redirect('/')
+
+@login_required
+def change_password(request):  #비밀번호 변경
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return render(request, 'content/profile.html')
+    else:
+        form = PasswordChangeForm(request.user)
+    context = {'form': form}
+    return render(request, 'user/change_password.html', context)

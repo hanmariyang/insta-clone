@@ -1,4 +1,4 @@
-# tweet/views.py
+
 from email.mime import image
 from turtle import update
 from uuid import uuid4
@@ -56,3 +56,8 @@ class UploadFeed(APIView):
         Feed.objects.create(image=image, content=content, user_id=user_id, profile_image=profile_image, like_count=0, created_at=created_at, updated_at=updated_at)
 
         return Response(status=200)
+
+
+def profile(request):
+    return render(request, 'content/profile.html')
+

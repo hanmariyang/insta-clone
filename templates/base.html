@@ -559,11 +559,10 @@
             let file = files[0];
             let image = files[0].name;
             let content = $('#input_feed_content').val();
-            let user_id = "hanmariyang"
+            let user_id = "{{ user.nickname }}"
             let profile_image = "https://avatars.githubusercontent.com/u/113072884?v=4"
             let created_at = new Date();
             let updated_at = new Date();  
-
 
             let fd = new FormData();
 

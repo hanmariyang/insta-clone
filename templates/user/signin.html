@@ -1,4 +1,6 @@
 {% block content %}
+{% load socialaccount %}
+{% providers_media_js %}
 <!doctype html>
 <html lang="en">
 
@@ -87,6 +89,7 @@
                 {% endif %}
                 <div style="float: right">
                     <button type="submit" class="btn btn-primary">로그인</button>
+                    <a href="{% provider_login_url 'google' %}">구글 로그인</a><br>
                     <a href="/sign-up" class="btn btn-secondary">회원가입 페이지로</a>
                 </div>
             </form>
