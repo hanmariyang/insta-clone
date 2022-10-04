@@ -11,4 +11,5 @@ urlpatterns = [
     path('content/delete/<int:id>', views.DeleteFeed, name="DeleteFeed"),
     path('profile/edit/', views.profile_edit, name='profile_edit'),
     path('profile/edit/password', views.profile_edit_password, name='profile_edit_password'),
+    path('content/modify/<int:id>/', views.modify, name='modify'),
 ]

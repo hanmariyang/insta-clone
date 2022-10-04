@@ -62,11 +62,12 @@ def DeleteFeed(request, id):
     feed.delete()
     return redirect('/content')
 
-def EditFeed(request, id):
-    return 
-
-
-
+def modify(request, id):
+    if request.method == 'POST':
+        feed = Feed.objects.get(id=id)
+        feed.content = request.POST.get('content')
+        feed.save()
+        return redirect("/")
 
 
 def profile(request):

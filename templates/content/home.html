@@ -310,292 +310,319 @@
                             </div>
                             <span class="feed_name_txt"> {{ user.nickname }} </span>
                         </div>
+                        <form action="/content/modify/{{feed.id}}/" method='POST'>
+                            {% csrf_token %}
+                            <textarea id="input_feed_edit_content"
+                                style="width: 50vh; height: 60%; max-width: 300px; max-height: 360px; min-width: 55%; min-height: 40%; border: none; outline: none; padding-left: 10px;"
+                                placeholder="문구 입력..." name="content"></textarea>
+                            <textarea
+                                style="width: 50vh; height: 30%; max-width: 300px; max-height: 180px; min-width: 55%; min-height: 20%; border: none; outline: none; padding-left: 10px;"
+                                placeholder="#해시 #태그..."></textarea>
+                            <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                                <div style="width: 40px;"></div>
+                                <div style="width: 40px;"></div>
+                                <button id="feed_edit_button" type="submit" class="btn btn-primary"
+                                    style="width: 100px;">
+                                    수정
+                                    하기 </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- home_modal_feed_edit (... 기능) 게시글 수정 팝업 -->
+    <div id="home_modal_feed_edit_{{feed.id}}" class="modal_overlay">
+        <div class="modal_window">
+            <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                <div style="width: 40px;">
+
+                </div>
+                <div>
+                    게시글 수정
+                </div>
+                <div style="width: 40px;">
+                    <span id="home_modal_feed_edit_close_{{feed.id}}" class="material-icons-outlined">close</span>
+                </div>
+            </div>
+            <div
+                style="width: 100%; height: 100%; border-top: solid 1px gray; display: flex; flex-direction: row; margin-top: 10px; justify-content: center;">
+                <div
+                    style="height: 85%; max-height: 520px; border-left: solid 1px gray; display: flex; flex-direction: column;">
+                    <div class="feed_name">
+                        <div class="profile_box">
+                            <img class="profile_img" src="https://avatars.githubusercontent.com/u/113072884?v=4">
+                        </div>
+                        <span class="feed_name_txt"> {{ user.nickname }} </span>
+                    </div>
+                    <form action="/content/modify/{{feed.id}}/" method='POST'>
+                        {% csrf_token %}
                         <textarea id="input_feed_edit_content"
                             style="width: 50vh; height: 60%; max-width: 300px; max-height: 360px; min-width: 55%; min-height: 40%; border: none; outline: none; padding-left: 10px;"
-                            placeholder="문구 입력..."></textarea>
+                            placeholder="문구 입력..." name="content"></textarea>
                         <textarea
                             style="width: 50vh; height: 30%; max-width: 300px; max-height: 180px; min-width: 55%; min-height: 20%; border: none; outline: none; padding-left: 10px;"
                             placeholder="#해시 #태그..."></textarea>
                         <div style="display: flex; flex-direction: row; justify-content: space-between;">
                             <div style="width: 40px;"></div>
                             <div style="width: 40px;"></div>
-                            <button id="feed_edit_button" type="button" class="btn btn-primary" style="width: 100px;">
-                                공유
+                            <button id="feed_edit_button" type="submit" class="btn btn-primary" style="width: 100px;">
+                                수정
                                 하기 </button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<!-- 피드 박스1 -->
 
-        <!-- home_modal_feed_edit (... 기능) 게시글 수정 팝업 -->
-        <div id="home_modal_feed_edit_{{feed.id}}" class="modal_overlay">
-            <div class="modal_window">
-                <div style="display: flex; flex-direction: row; justify-content: space-between;">
-                    <div style="width: 40px;">
+<script>
+    /* 모달 스크립트 */
 
-                    </div>
-                    <div>
-                        게시글 수정
-                    </div>
-                    <div style="width: 40px;">
-                        <span id="home_modal_feed_edit_close{{feed.id}}" class="material-icons-outlined">close</span>
-                    </div>
-                </div>
-                <div
-                    style="width: 100%; height: 100%; border-top: solid 1px gray; display: flex; flex-direction: row; margin-top: 10px; justify-content: center;">
-                    <div
-                        style="height: 85%; max-height: 520px; border-left: solid 1px gray; display: flex; flex-direction: column;">
-                        <div class="feed_name">
-                            <div class="profile_box">
-                                <img class="profile_img" src="https://avatars.githubusercontent.com/u/113072884?v=4">
-                            </div>
-                            <span class="feed_name_txt"> {{ user.nickname }} </span>
-                        </div>
-                        <textarea id="input_modal_feed_edit_content"
-                            style="width: 50vh; height: 60%; max-width: 300px; max-height: 360px; min-width: 55%; min-height: 40%; border: none; outline: none; padding-left: 10px;"
-                            placeholder="문구 입력..."></textarea>
-                        <textarea
-                            style="width: 50vh; height: 30%; max-width: 300px; max-height: 180px; min-width: 55%; min-height: 20%; border: none; outline: none; padding-left: 10px;"
-                            placeholder="#해시 #태그..."></textarea>
-                        <div style="display: flex; flex-direction: row; justify-content: space-between;">
-                            <div style="width: 40px;"></div>
-                            <div style="width: 40px;"></div>
-                            <button id="modal_feed_edit_button" type="button" class="btn btn-primary"
-                                style="width: 100px;"> 수정
-                                하기 </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- 피드 박스1 -->
+    /* 홈 피드 코멘트 아이콘 클릭 모달 스크립트 */
+    $('#left_box_feed_comment_bt_{{feed.id}}').click(function () {
+        $('#home_feed_modal_{{feed.id}}').css({
+            display: 'flex',
+            "top": (($(window).height() - $("#home_feed_modal_{{feed.id}}").outerHeight()) / 2 + $(window).scrollTop()) + "px",
+            "left": (($(window).width() - $("#home_feed_modal_{{feed.id}}").outerWidth()) / 2 + $(window).scrollLeft()) + "px"
+        });
 
-        <script>
-            /* 모달 스크립트 */
+        $(document.body).css({
+            overflow: 'hidden'
+        });
 
-            /* 홈 피드 코멘트 아이콘 클릭 모달 스크립트 */
-            $('#left_box_feed_comment_bt_{{feed.id}}').click(function () {
-                $('#home_feed_modal_{{feed.id}}').css({
-                    display: 'flex',
-                    "top": (($(window).height() - $("#home_feed_modal_{{feed.id}}").outerHeight()) / 2 + $(window).scrollTop()) + "px",
-                    "left": (($(window).width() - $("#home_feed_modal_{{feed.id}}").outerWidth()) / 2 + $(window).scrollLeft()) + "px"
-                });
+    });
 
-                $(document.body).css({
-                    overflow: 'hidden'
-                });
+    /* 홈 피드 코멘트 아이콘 모달 닫기 스크립트 */
+    $('#home_feed_modal_close_{{feed.id}}').click(function () {
+        $('#home_feed_modal_{{feed.id}}').css({
+            display: 'none'
+        });
 
-            });
+        $(document.body).css({
+            overflow: 'auto'
+        });
+    });
 
-            /* 홈 피드 코멘트 아이콘 모달 닫기 스크립트 */
-            $('#home_feed_modal_close_{{feed.id}}').click(function () {
-                $('#home_feed_modal_{{feed.id}}').css({
-                    display: 'none'
-                });
+    /* home/feed ...기능 */
+    $('#home_feed_function_bt_{{feed.id}}').click(function () {
+        $('#home_feed_function_modal_{{feed.id}}').css({
+            display: 'flex',
+            "top": (($(window).height() - $("#home_feed_function_modal_{{feed.id}}").outerHeight()) / 2 + $(window).scrollTop()) + "px",
+            "left": (($(window).width() - $("#home_feed_function_modal_{{feed.id}}").outerWidth()) / 2 + $(window).scrollLeft()) + "px"
+        });
 
-                $(document.body).css({
-                    overflow: 'auto'
-                });
-            });
+        $(document.body).css({
+            overflow: 'hidden'
+        });
+    });
 
-            /* home/feed ...기능 */
-            $('#home_feed_function_bt_{{feed.id}}').click(function () {
-                $('#home_feed_function_modal_{{feed.id}}').css({
-                    display: 'flex',
-                    "top": (($(window).height() - $("#home_feed_function_modal_{{feed.id}}").outerHeight()) / 2 + $(window).scrollTop()) + "px",
-                    "left": (($(window).width() - $("#home_feed_function_modal_{{feed.id}}").outerWidth()) / 2 + $(window).scrollLeft()) + "px"
-                });
-            });
+    $('#home_feed_function_modal_close_{{feed.id}}').click(function () {
+        $('#home_feed_function_modal_{{feed.id}}').css({
+            display: 'none'
+        });
 
-            $('#home_feed_function_modal_close_{{feed.id}}').click(function () {
-                $('#home_feed_function_modal_{{feed.id}}').css({
-                    display: 'none'
-                });
-            });
-            /* home/feed ...기능 */
+        $(document.body).css({
+            overflow: 'auto'
+        });
+    });
+    /* home/feed ...기능 */
 
-            /* home_feed_comment_modal_function_modal ...기능 */
-            $('#home_feed_comment_modal_function_modal_bt_{{feed.id}}').click(function () {
-                $('#home_feed_comment_modal_function_modal_{{feed.id}}').css({
-                    display: 'flex',
-                    "top": (($(window).height() - $("#home_feed_comment_modal_function_modal_{{feed.id}}").outerHeight()) / 2 + $(window).scrollTop()) + "px",
-                    "left": (($(window).width() - $("#home_feed_comment_modal_function_modal_{{feed.id}}").outerWidth()) / 2 + $(window).scrollLeft()) + "px"
-                });
-            });
+    /* home_feed_comment_modal_function_modal ...기능 */
+    $('#home_feed_comment_modal_function_modal_bt_{{feed.id}}').click(function () {
+        $('#home_feed_comment_modal_function_modal_{{feed.id}}').css({
+            display: 'flex',
+            "top": (($(window).height() - $("#home_feed_comment_modal_function_modal_{{feed.id}}").outerHeight()) / 2 + $(window).scrollTop()) + "px",
+            "left": (($(window).width() - $("#home_feed_comment_modal_function_modal_{{feed.id}}").outerWidth()) / 2 + $(window).scrollLeft()) + "px"
+        });
 
-            $('#home_feed_comment_modal_function_modal_close_{{feed.id}}').click(function () {
-                $('#home_feed_comment_modal_function_modal_{{feed.id}}').css({
-                    display: 'none'
-                });
-            });
-            /* home/feed ...기능 */
+        $(document.body).css({
+            overflow: 'hidden'
+        });
+    });
 
-            /* home/feed ...기능 게시글 수정 기능 */
-            $('#home_feed_function_edit_button_{{feed.id}}').click(function () {
-                $('#home_feed_function_modal_{{feed.id}}').css({
-                    display: 'none'
-                });
+    $('#home_feed_comment_modal_function_modal_close_{{feed.id}}').click(function () {
+        $('#home_feed_comment_modal_function_modal_{{feed.id}}').css({
+            display: 'none'
+        });
 
-                $('#home_feed_edit_{{feed.id}}').css({
-                    display: 'flex'
-                });
+        $(document.body).css({
+            overflow: 'auto'
+        });
+    });
+    /* home/feed ...기능 */
 
-                $(document.body).css({
-                    overflow: 'hidden'
-                });
-            });
+    /* home/feed ...기능 게시글 수정 기능 */
+    $('#home_feed_function_edit_button_{{feed.id}}').click(function () {
+        $('#home_feed_function_modal_{{feed.id}}').css({
+            display: 'none'
+        });
 
-            $('#home_feed_edit_close{{feed.id}}').click(function () {
-                $('#home_feed_edit_{{feed.id}}').css({
-                    display: 'none'
-                });
+        $('#home_feed_edit_{{feed.id}}').css({
+            display: 'flex',
+            "top": (($(window).height() - $("#home_feed_edit_{{feed.id}}").outerHeight()) / 2 + $(window).scrollTop()) + "px",
+            "left": (($(window).width() - $("#home_feed_edit_{{feed.id}}").outerWidth()) / 2 + $(window).scrollLeft()) + "px"
+        });
 
-                $(document.body).css({
-                    overflow: 'auto'
-                });
-            });
+        $(document.body).css({
+            overflow: 'hidden'
+        });
+    });
 
-            /* home/modal/feed ...기능 게시글 수정 기능 */
-            $('#home_modal_feed_function_edit_button_{{feed.id}}').click(function () {
-                $('#home_feed_comment_modal_function_modal_{{feed.id}}').css({
-                    display: 'none'
-                });
+    $('#home_feed_edit_close{{feed.id}}').click(function () {
+        $('#home_feed_edit_{{feed.id}}').css({
+            display: 'none'
+        });
 
-                $('#home_feed_modal_{{feed.id}}').css({
-                    display: 'none'
-                });
+        $(document.body).css({
+            overflow: 'auto'
+        });
+    });
 
-                $('#home_modal_feed_edit_{{feed.id}}').css({
-                    display: 'flex',
-                });
+    /* home/modal/feed ...기능 게시글 수정 기능 */
+    $('#home_modal_feed_function_edit_button_{{feed.id}}').click(function () {
+        $('#home_feed_comment_modal_function_modal_{{feed.id}}').css({
+            display: 'none'
+        });
 
-                $(document.body).css({
-                    overflow: 'hidden'
-                });
-            });
+        $('#home_feed_modal_{{feed.id}}').css({
+            display: 'none'
+        });
 
-            $('#home_modal_feed_edit_close{{feed.id}}').click(function () {
-                $('#home_modal_feed_edit_{{feed.id}}').css({
-                    display: 'none'
-                });
+        $('#home_modal_feed_edit_{{feed.id}}').css({
+            display: 'flex',
+            "top": (($(window).height() - $("#home_modal_feed_edit_{{feed.id}}").outerHeight()) / 2 + $(window).scrollTop()) + "px",
+            "left": (($(window).width() - $("#home_modal_feed_edit_{{feed.id}}").outerWidth()) / 2 + $(window).scrollLeft()) + "px"
+        });
 
-                $(document.body).css({
-                    overflow: 'auto'
-                });
-            });
+        $(document.body).css({
+            overflow: 'hidden'
+        });
+    });
+
+    $('#home_modal_feed_edit_close_{{feed.id}}').click(function () {
+        $('#home_modal_feed_edit_{{feed.id}}').css({
+            display: 'none'
+        });
+
+        $(document.body).css({
+            overflow: 'auto'
+        });
+    });
 
 
-            /* 모달 스크립트 */
+    /* 모달 스크립트 */
 
-            /* 댓글달기 텍스트 자동사이즈 조정 */
-            function resize(obj) {
-                obj.style.height = "1px";
-                obj.style.height = (12 + obj.scrollHeight) + "px";
-            }
+    /* 댓글달기 텍스트 자동사이즈 조정 */
+    function resize(obj) {
+        obj.style.height = "1px";
+        obj.style.height = (12 + obj.scrollHeight) + "px";
+    }
         /* 댓글달기 텍스트 자동사이즈 조정 */
 
-        </script>
+</script>
 
-        {% endfor %}
-    </div>
-    <div class="right_body" style="position: static;">
-        <div class="feed_name" style="justify-content: space-between">
-            <div style="display: flex; align-items: center; ">
-                <div class="big_profile_box">
-                    <img id="profile_page_button" class="profile_img"
-                        src="https://avatars.githubusercontent.com/u/113072884?v=4">
-                </div>
-                <div class="name_content">
-                    <span class="feed_name_txt"> {{ user.nickname }} </span>
-                    <span class="name_content_txt"> {{ user.name }} </span>
-                </div>
+{% endfor %}
+</div>
+<div class="right_body" style="position: static;">
+    <div class="feed_name" style="justify-content: space-between">
+        <div style="display: flex; align-items: center; ">
+            <div class="big_profile_box">
+                <img id="profile_page_button" class="profile_img"
+                    src="https://avatars.githubusercontent.com/u/113072884?v=4">
             </div>
+            <div class="name_content">
+                <span class="feed_name_txt"> {{ user.nickname }} </span>
+                <span class="name_content_txt"> {{ user.name }} </span>
+            </div>
+        </div>
 
+        <a class="link_txt">
+            전환
+        </a>
+    </div>
+
+    <div class="recommend_box">
+        <span style="color: gray"> 회원님을 위한 추천</span>
+        <span style="font-size: 12px"> 모두 보기 </span>
+    </div>
+    <div>
+        <div class="feed_name" style="justify-content: space-between">
+            <div class="profile_box">
+                <img class="profile_img"
+                    src="https://postfiles.pstatic.net/MjAxNzAxMjVfMTA3/MDAxNDg1MzQ3NDMyMTM4.2sRKA7NuS-DIbHT9Mn9QtqTAeQ86y4mmcAWKPtTXulcg.PWNltFJ638pdVapdvRtzRR9m7LavQSVTwsWJsQIeQAIg.JPEG.burudi06/IMG_20170120_171306.jpg?type=w773">
+            </div>
+            <div class="name_content">
+                <span class="feed_name_txt"> changnam </span>
+                <span class="name_content_txt"> farmstargram 신규가입</span>
+            </div>
             <a class="link_txt">
-                전환
+                팔로우
             </a>
         </div>
-
-        <div class="recommend_box">
-            <span style="color: gray"> 회원님을 위한 추천</span>
-            <span style="font-size: 12px"> 모두 보기 </span>
+        <div class="feed_name" style="justify-content: space-between">
+            <div class="profile_box">
+                <img class="profile_img"
+                    src="https://postfiles.pstatic.net/MjAxNzAxMjVfNjgg/MDAxNDg1MzQ3MjYzNTIw.IB5YXvQks3A7YMCGPFquwhUzk22kcIIlEbljopJI7oMg.lflw9ONya4dCz4MX2BaaVy01Dpxyetpnp7M0yqirZoYg.JPEG.burudi06/downloadfile-2.jpg?type=w773">
+            </div>
+            <div class="name_content">
+                <span class="feed_name_txt"> taekyum </span>
+                <span class="name_content_txt"> changnam 외 3명이 팔로우</span>
+            </div>
+            <a class="link_txt">
+                팔로우
+            </a>
         </div>
-        <div>
-            <div class="feed_name" style="justify-content: space-between">
-                <div class="profile_box">
-                    <img class="profile_img"
-                        src="https://postfiles.pstatic.net/MjAxNzAxMjVfMTA3/MDAxNDg1MzQ3NDMyMTM4.2sRKA7NuS-DIbHT9Mn9QtqTAeQ86y4mmcAWKPtTXulcg.PWNltFJ638pdVapdvRtzRR9m7LavQSVTwsWJsQIeQAIg.JPEG.burudi06/IMG_20170120_171306.jpg?type=w773">
-                </div>
-                <div class="name_content">
-                    <span class="feed_name_txt"> changnam </span>
-                    <span class="name_content_txt"> farmstargram 신규가입</span>
-                </div>
-                <a class="link_txt">
-                    팔로우
-                </a>
+        <div class="feed_name" style="justify-content: space-between">
+            <div class="profile_box">
+                <img class="profile_img"
+                    src="https://postfiles.pstatic.net/MjAxNzAxMjVfMjI4/MDAxNDg1MzQ2MDk5NzI0.5-K0csbmI3aPSkHZhbF68ZK6zCXaQJ0UyVCJVYhExOcg.7iYR3p4BryiWYPZ7rXj0YoZuuGP6frNnjPslWRPDRHUg.JPEG.burudi06/IMG_20170118_235012.jpg?type=w773">
             </div>
-            <div class="feed_name" style="justify-content: space-between">
-                <div class="profile_box">
-                    <img class="profile_img"
-                        src="https://postfiles.pstatic.net/MjAxNzAxMjVfNjgg/MDAxNDg1MzQ3MjYzNTIw.IB5YXvQks3A7YMCGPFquwhUzk22kcIIlEbljopJI7oMg.lflw9ONya4dCz4MX2BaaVy01Dpxyetpnp7M0yqirZoYg.JPEG.burudi06/downloadfile-2.jpg?type=w773">
-                </div>
-                <div class="name_content">
-                    <span class="feed_name_txt"> taekyum </span>
-                    <span class="name_content_txt"> changnam 외 3명이 팔로우</span>
-                </div>
-                <a class="link_txt">
-                    팔로우
-                </a>
+            <div class="name_content">
+                <span class="feed_name_txt"> wooseok </span>
+                <span class="name_content_txt"> taekyum 외 4명이 팔로우</span>
             </div>
-            <div class="feed_name" style="justify-content: space-between">
-                <div class="profile_box">
-                    <img class="profile_img"
-                        src="https://postfiles.pstatic.net/MjAxNzAxMjVfMjI4/MDAxNDg1MzQ2MDk5NzI0.5-K0csbmI3aPSkHZhbF68ZK6zCXaQJ0UyVCJVYhExOcg.7iYR3p4BryiWYPZ7rXj0YoZuuGP6frNnjPslWRPDRHUg.JPEG.burudi06/IMG_20170118_235012.jpg?type=w773">
-                </div>
-                <div class="name_content">
-                    <span class="feed_name_txt"> wooseok </span>
-                    <span class="name_content_txt"> taekyum 외 4명이 팔로우</span>
-                </div>
-                <a class="link_txt">
-                    팔로우
-                </a>
-            </div>
-            <div class="feed_name" style="justify-content: space-between">
-                <div class="profile_box">
-                    <img class="profile_img"
-                        src="https://postfiles.pstatic.net/MjAxNzAxMjVfMTA1/MDAxNDg1MzQ0OTE3MTY1.nD1XKRmZ3qlUpPh0pPsSfrdjAYufXGOZQjCz0a8CNgcg.MU0orZNkJcyOFipkAI3FjBIiA4UbgbmaS5GSWT51liYg.PNG.burudi06/20160406_100024.png?type=w773">
-                </div>
-                <div class="name_content">
-                    <span class="feed_name_txt"> devjunseok </span>
-                    <span class="name_content_txt"> wooseok님이 팔로우합니다 </span>
-                </div>
-                <a class="link_txt">
-                    팔로우
-                </a>
-            </div>
-            <div class="feed_name" style="justify-content: space-between">
-                <div class="profile_box">
-                    <img class="profile_img"
-                        src="https://postfiles.pstatic.net/20151110_289/junirism_1447084723580AN59O_JPEG/Untitled.jpg?type=w1">
-                </div>
-                <div class="name_content">
-                    <span class="feed_name_txt"> byunyohan_official </span>
-                    <span class="name_content_txt"> devjunseok님이 팔로우합니다 </span>
-                </div>
-                <a class="link_txt">
-                    팔로우
-                </a>
-            </div>
+            <a class="link_txt">
+                팔로우
+            </a>
         </div>
-        <div class="comment_box">
-            <span> 팜스타그램 </span>
-            <span> https://hanmari-code.tistory.com/ </span>
-            <br>
-            <span> @2022 hanmari-code </span>
-
+        <div class="feed_name" style="justify-content: space-between">
+            <div class="profile_box">
+                <img class="profile_img"
+                    src="https://postfiles.pstatic.net/MjAxNzAxMjVfMTA1/MDAxNDg1MzQ0OTE3MTY1.nD1XKRmZ3qlUpPh0pPsSfrdjAYufXGOZQjCz0a8CNgcg.MU0orZNkJcyOFipkAI3FjBIiA4UbgbmaS5GSWT51liYg.PNG.burudi06/20160406_100024.png?type=w773">
+            </div>
+            <div class="name_content">
+                <span class="feed_name_txt"> devjunseok </span>
+                <span class="name_content_txt"> wooseok님이 팔로우합니다 </span>
+            </div>
+            <a class="link_txt">
+                팔로우
+            </a>
+        </div>
+        <div class="feed_name" style="justify-content: space-between">
+            <div class="profile_box">
+                <img class="profile_img"
+                    src="https://postfiles.pstatic.net/20151110_289/junirism_1447084723580AN59O_JPEG/Untitled.jpg?type=w1">
+            </div>
+            <div class="name_content">
+                <span class="feed_name_txt"> byunyohan_official </span>
+                <span class="name_content_txt"> devjunseok님이 팔로우합니다 </span>
+            </div>
+            <a class="link_txt">
+                팔로우
+            </a>
         </div>
     </div>
+    <div class="comment_box">
+        <span> 팜스타그램 </span>
+        <span> https://hanmari-code.tistory.com/ </span>
+        <br>
+        <span> @2022 hanmari-code </span>
+
+    </div>
+</div>
 </div>
 
 <script>
