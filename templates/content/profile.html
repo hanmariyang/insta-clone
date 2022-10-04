@@ -68,14 +68,12 @@
             <div style="font-size: 26px; margin-right: 40px">
                 {{ user.nickname }}
             </div>
-            <button id="button_profile_upload" style="background-color: #fafafa; border: 1px solid #c7c7c7; border-radius: 3px; font-weight: bold; padding: 3px 8px 3px 8px;font-size: 14px;"> 프로필 편집</button>
+            <button id="profile_edit_button" style="background-color: #fafafa; border: 1px solid #c7c7c7; border-radius: 3px; font-weight: bold; padding: 3px 8px 3px 8px;font-size: 14px;"> 프로필 편집</button>
             <input type="file" id="input_fileupload" onchange="profile_upload();" style="display: none" />
             <span class="material-icons-outlined" style="margin-right: 40px">settings</span>
         </div>
 
         <div style="margin-bottom: 20px">
-            <a href="/delete" class="btn btn-secondary">회원탈퇴</a>
-            <a href="/password" class="btn btn-secondary">비밀번호변경</a>
             게시물  팔로워  팔로잉 
         </div>
         <div>
@@ -371,6 +369,10 @@
         });
 
     }
+
+    $('#profile_edit_button').click(function () {
+        window.location.href = "/profile/edit";
+    })
 
 
 </script>

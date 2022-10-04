@@ -272,7 +272,8 @@
                     <span class="home_feed_function_text">게시물로 이동</span>
                     <span class="home_feed_function_text">링크 복사</span>
                     {% if feed.user_id == user.nickname %}
-                    <span id="home_modal_feed_function_edit_button_{{feed.id}}" class="home_feed_function_text">수정</span>
+                    <span id="home_modal_feed_function_edit_button_{{feed.id}}"
+                        class="home_feed_function_text">수정</span>
                     <a href="/content/delete/{{ feed.id }}" class="home_feed_function_text">
                         <span class="home_feed_function_text" style="color: red;">삭제</span>
                     </a>
@@ -290,7 +291,7 @@
             <div class="modal_window">
                 <div style="display: flex; flex-direction: row; justify-content: space-between;">
                     <div style="width: 40px;">
-    
+
                     </div>
                     <div>
                         게시글 수정
@@ -318,7 +319,8 @@
                         <div style="display: flex; flex-direction: row; justify-content: space-between;">
                             <div style="width: 40px;"></div>
                             <div style="width: 40px;"></div>
-                            <button id="feed_edit_button" type="button" class="btn btn-primary" style="width: 100px;"> 공유
+                            <button id="feed_edit_button" type="button" class="btn btn-primary" style="width: 100px;">
+                                공유
                                 하기 </button>
                         </div>
                     </div>
@@ -331,7 +333,7 @@
             <div class="modal_window">
                 <div style="display: flex; flex-direction: row; justify-content: space-between;">
                     <div style="width: 40px;">
-    
+
                     </div>
                     <div>
                         게시글 수정
@@ -359,10 +361,11 @@
                         <div style="display: flex; flex-direction: row; justify-content: space-between;">
                             <div style="width: 40px;"></div>
                             <div style="width: 40px;"></div>
-                            <button id="modal_feed_edit_button" type="button" class="btn btn-primary" style="width: 100px;"> 수정
+                            <button id="modal_feed_edit_button" type="button" class="btn btn-primary"
+                                style="width: 100px;"> 수정
                                 하기 </button>
                         </div>
-                    </div>  
+                    </div>
                 </div>
             </div>
         </div>
@@ -491,6 +494,7 @@
                 obj.style.height = (12 + obj.scrollHeight) + "px";
             }
         /* 댓글달기 텍스트 자동사이즈 조정 */
+
         </script>
 
         {% endfor %}
@@ -499,11 +503,12 @@
         <div class="feed_name" style="justify-content: space-between">
             <div style="display: flex; align-items: center; ">
                 <div class="big_profile_box">
-                    <img class="profile_img" src="https://avatars.githubusercontent.com/u/113072884?v=4">
+                    <img id="profile_page_button" class="profile_img"
+                        src="https://avatars.githubusercontent.com/u/113072884?v=4">
                 </div>
                 <div class="name_content">
-                    <span class="feed_name_txt"> hanmariyang </span>
-                    <span class="name_content_txt"> 철기양 </span>
+                    <span class="feed_name_txt"> {{ user.nickname }} </span>
+                    <span class="name_content_txt"> {{ user.name }} </span>
                 </div>
             </div>
 
@@ -592,6 +597,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#profile_page_button').click(function () {
+        window.location.href = "/profile";
+    })
+</script>
 
 
 {% endblock %}

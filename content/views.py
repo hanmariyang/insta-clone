@@ -72,3 +72,10 @@ def EditFeed(request, id):
 def profile(request):
     return render(request, 'content/profile.html')
 
+
+def profile_edit(request):
+    return render(request, 'content/profile_edit.html')
+
+def profile_edit_password(request):
+    return render(request, 'content/profile_edit_password.html')
+
