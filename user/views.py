@@ -102,7 +102,6 @@ def change_password(request, id): # 비밀번호 수정
 
 class UploadProfile(APIView):
     def post(self, request):
-        print("test")
         # 일단 파일 불러와
         file = request.FILES['file']
 

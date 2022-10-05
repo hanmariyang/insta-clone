@@ -6,8 +6,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-
     {% load static %}
     {% csrf_token %}
 
@@ -237,6 +235,7 @@
         #home_feed_function_bt {
             cursor: pointer;
         }
+
         /* 홈 피드(...기능) 게시글 수정 모달 */
 
         /* 모달 팝업 창 */
@@ -410,26 +409,25 @@
         style="width: 100%;height: 50px; position: fixed;">
         <div class="container">
             <img style="height: 30px; object-fit: contain" src="/static/img/logo.png">
-            <input class="form-control" style="width: 200px" type="search" placeholder="Search" aria-label="Search">
+            <input class="form-control" style="width: 200px" type="search" placeholder="Search" aria-label="Search" />
             <div>
                 <form class="form-inline my-2 my-lg-0">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item" disabled>
+                        <li class="nav-item">
                             <span class="nav-link">
                                 <span id="nav_bar_home_bt" class="material-icons">home</span>
                                 <span class="material-icons">send</span>
                                 <span id="nav_bar_add_box" class="material-icons-outlined">add_box</span>
                                 <span class="material-icons-outlined">explore</span>
                                 <span id="nav_bar_rep_box" class="material-icons-outlined">favorite_border</span>
-                                <span id="nav_bar_profile_bt" class="" ></span>
+                                <span id="nav_bar_profile_bt" class=""></span>
                             </span>
                         </li>
                         <div class="dropdown" style="margin-top: 6px;">
-                            <a href="#" role="button" id="dropdownMenuLink"
-                               data-bs-toggle="dropdown" aria-expanded="false">
+                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                                aria-expanded="false">
                                 <div class="box" style="width: 25px; height: 25px">
-                                    <img class="profile_img"
-                                         src="{% get_media_prefix %}{{ user.profile_image }}">
+                                    <img class="profile_img" src="{% get_media_prefix %}{{ user.profile_image }}">
                                 </div>
                             </a>
                             <ul class="dropdown-menu" style="left:-158px" aria-labelledby="dropdownMenuLink">
@@ -440,10 +438,13 @@
                                 <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
                             </ul>
                         </div>
-                    </div>
-                </div>
-            </nav>
+                    </ul>
+                </form>
+            </div>
+        </div>
+    </nav>
     <!-- 상단 내비게이션 바 -->
+
     {% block content %}
 
     {% endblock %}
@@ -492,7 +493,7 @@
                     style="height: 85%; max-height: 520px; border-left: solid 1px gray; display: flex; flex-direction: column;">
                     <div class="feed_name">
                         <div class="profile_box">
-                            <img class="profile_img" src="https://avatars.githubusercontent.com/u/113072884?v=4">
+                            <img class="profile_img" src="{% get_media_prefix %}{{ user.profile_image }}">
                         </div>
                         <span class="feed_name_txt"> {{ user.nickname }} </span>
                     </div>
@@ -604,9 +605,9 @@
             let image = files[0].name;
             let content = $('#input_feed_content').val();
             let user_id = "{{ user.nickname }}"
-            let profile_image = "https://avatars.githubusercontent.com/u/113072884?v=4"
+            let profile_image = "{{ user.profile_image }}"
             let created_at = new Date();
-            let updated_at = new Date();  
+            let updated_at = new Date();
 
             let fd = new FormData();
 
