@@ -22,7 +22,8 @@
                     <b style="font-size: 16pt;">{{ user.nickname }}</b>
                 </div>
             </div>
-            <form action="/profile/edit/{{ user.id }}/" method='POST'>
+            <form></form>
+            <form action="/user/edit/{{ user.id }}/" method='POST'>
                 {% csrf_token %}
                 <div style="display: flex; flex-direction: row;">
                     <div style="width: 15vw; height: 12vh; min-height: 120px; margin: 1vh 30px 0 0; text-align: right;"> <b>이름</b> </div>

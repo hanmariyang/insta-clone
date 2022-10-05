@@ -78,4 +78,5 @@ def profile_edit_page(request):
 
 
 def profile_edit_password(request):
-    return render(request, 'content/profile_edit_password.html')
+    if request.method == "GET":
+        return render(request, 'content/profile_edit_password.html')

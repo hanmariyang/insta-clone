@@ -46,7 +46,7 @@
 
         .sign_in_left_box {
             display: flex;
-            background-color: saddlebrown;
+            background-color: #fafafa;
             width: 500px;
             height: 800px;
             margin: 20px;
@@ -54,46 +54,54 @@
 
         .sign_in_right_box {
             display: flex;
-            background-color: rgb(129, 175, 90);
+            background-color: #ffffff;
             width: 500px;
-            height: 800px;
+            height: 450px;
             margin: 20px;
         }
     </style>
 </head>
 
 <body>
-<div class="flex-direction_row" style="width: 100%; text-align: center; place-items: center; min-height: 100vh; background-color: #139f73;">
+<div class="flex-direction_row" style="width: 100%; text-align: center; place-items: center; min-height: 100vh; background-color: #fafafa;">
     <div class="sign_in_left_box" style="display: inline-block; margin: auto 10px auto auto;">
-        왼쪽 영역
+        <img style="height: 700px; margin: 40px 0 40px 0; object-fit: contain" src="/static/img/signin.png">
     </div>
-	<div class="sign_in_right_box" style="display: inline-block; margin: auto auto auto 10px">
-        <h2 class="title-center"> 로그인</h2>
-        <form class="form-area" action="/sign-in/" method="post">
-            {% csrf_token %}
-            <div class="form-group mt-2 mb-2">
-                <label for="email">이메일</label>
-                <input type="text" class="form-control" id="email" name="email">
-            </div>
-            <div class="form-group mt-2 mb-2">
-                <label for="password">비밀번호</label>
-                <input type="password" class="form-control" id="password" name="password">
-            </div>
-            <hr>
-            {% if error %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
-                    </div>
-            {% endif %}
-            <div style="float: right">
-                <button type="submit" class="btn btn-primary">로그인</button>
-                <a href="{% provider_login_url 'google' %}">구글 로그인</a><br>
-                <a href="/sign-up" class="btn btn-secondary">회원가입 페이지로</a>
-            </div>
-        </form>
+    <div style="display: flex; flex-direction: column; display: inline-block; margin: auto auto auto 10px;">
+        <div class="sign_in_right_box" style="display: inline-block; border: solid 1px lightgray;">
+            <img style="height: 70px; margin: 40px 0 40px 0; object-fit: contain" src="/static/img/logo.png">
+            <form class="form-area" action="/sign-in/" method="post">
+                {% csrf_token %}
+                <div class="form-group mt-2 mb-2">
+                    <input type="text" style="width: 400px; margin-left: 50px; background-color: #fafafa;" class="form-control" id="email" name="email" placeholder="이메일">
+                </div>
+                <div class="form-group mt-2 mb-2">
+                    <input type="password" style="width: 400px; margin-left: 50px; background-color: #fafafa;" class="form-control" id="password" name="password" placeholder="비밀번호">
+                </div>
+                <div>
+                    <button type="submit" style="width: 400px; margin-top: 15px;" class="btn btn-primary">로그인</button>
+                </div>
+                <div style="display: flex; flex-direction: row; text-align: center; place-content: center; margin: 20px 0 20px 0;">
+                <hr style="width: 150px;"><div style="margin: 5px 20px 0 20px;">또는</div><hr style="width: 150px;">
+                </div>
+                {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                        </div>
+                {% endif %}
+                <div style="">
+                    <a href="{% provider_login_url 'google' %}" style="font-weight: bold;">구글 로그인</a><br>
+                </div>
+
+        </div>
+        <div style="width: 500px; height: 100px; margin: 0 20px 0 20px; padding: 30px; background-color: #ffffff; border: solid 1px lightgray;">계정이 없으신가요? 
+            <a href="/sign-up" style="color: blue;"><b>가입하기</b></a>
+        </div>
+        <div style="width: 500px; height: 100px; margin: 0 20px 0 20px; padding: 30px;">
+        </div>
     </div>
 </div>
-
+</form>
 </body>
 
 

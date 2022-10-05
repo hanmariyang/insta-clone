@@ -297,7 +297,7 @@
                         게시글 수정
                     </div>
                     <div style="width: 40px;">
-                        <span id="home_feed_edit_close{{feed.id}}" class="material-icons-outlined">close</span>
+                        <span id="home_feed_edit_close_{{feed.id}}" class="material-icons-outlined">close</span>
                     </div>
                 </div>
                 <div
@@ -310,6 +310,7 @@
                             </div>
                             <span class="feed_name_txt"> {{ user.nickname }} </span>
                         </div>
+                        <form></form>
                         <form action="/content/modify/{{feed.id}}/" method='POST'>
                             {% csrf_token %}
                             <textarea id="input_feed_edit_content"
@@ -321,7 +322,7 @@
                             <div style="display: flex; flex-direction: row; justify-content: space-between;">
                                 <div style="width: 40px;"></div>
                                 <div style="width: 40px;"></div>
-                                <button id="feed_edit_button" type="submit" class="btn btn-primary"
+                                <button type="submit" class="btn btn-primary"
                                     style="width: 100px;">
                                     수정
                                     하기 </button>
@@ -367,7 +368,7 @@
                         <div style="display: flex; flex-direction: row; justify-content: space-between;">
                             <div style="width: 40px;"></div>
                             <div style="width: 40px;"></div>
-                            <button id="feed_edit_button" type="submit" class="btn btn-primary" style="width: 100px;">
+                            <button type="submit" class="btn btn-primary" style="width: 100px;">
                                 수정
                                 하기 </button>
                     </form>
@@ -471,7 +472,7 @@
         });
     });
 
-    $('#home_feed_edit_close{{feed.id}}').click(function () {
+    $('#home_feed_edit_close_{{feed.id}}').click(function () {
         $('#home_feed_edit_{{feed.id}}').css({
             display: 'none'
         });
@@ -525,6 +526,7 @@
 </script>
 
 {% endfor %}
+
 </div>
 <div class="right_body" style="position: static;">
     <div class="feed_name" style="justify-content: space-between">
