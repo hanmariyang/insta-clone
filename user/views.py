@@ -4,13 +4,9 @@ from django.http import HttpResponse
 from django.contrib.auth import get_user_model #사용자가 있는지 검사하는 함수
 from django.contrib import auth # 사용자 auth 기능
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
-from django.contrib.auth.forms import (
-    UserCreationForm,
-    AuthenticationForm,
-    PasswordChangeForm,
-)
-from django.contrib.auth import update_session_auth_hash
+
+from django.contrib.auth.hashers import check_password
+
 
 def sign_up_view(request):
     if request.method == 'GET':
@@ -67,15 +63,32 @@ def delete(request):   #회원탈퇴
         request.user.delete()
     return redirect('/')
 
-@login_required
-def change_password(request):  #비밀번호 변경
+
+def profile_edit(request, id):  # 사용자 정보 수정(이름,닉네임,이메일)
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            form.save()
-            update_session_auth_hash(request, form.user)
-            return render(request, 'content/profile.html')
+        user = UserModel.objects.get(id=id)
+        user.username = request.POST.get('username')
+        user.nickname = request.POST.get('nickname')
+        user.email = request.POST.get('email')
+        user.save()
+        return redirect("/")
+
+def change_password(request, id): # 비밀번호 수정
+    if request.method == "POST":
+        user = UserModel.objects.get(id=id)
+        origin_password = request.POST["origin_password"]
+        if check_password(origin_password, user.password):
+            new_password = request.POST["new_password"]
+            confirm_password = request.POST["confirm_password"]
+            if new_password == confirm_password:
+                user.set_password(new_password)
+                user.save()
+                auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                return redirect('profile')
+            else:
+                messages.error(request, 'Password not same')
+        else:
+            messages.error(request, 'Password not correct')
+            return render(request, 'content/profile_edit_password.html')
     else:
-        form = PasswordChangeForm(request.user)
-    context = {'form': form}
-    return render(request, 'user/change_password.html', context)
+        return render(request, 'content/profile_edit_password.html')
