@@ -96,7 +96,7 @@
 
 
 <script>
-
+    let files;
     $("#button_feed_list").click(function () {
         $('#feed_list').css({
             display: 'flex'
@@ -152,7 +152,7 @@
 
 
         $.ajax({
-            url: "user/profile/upload",
+            url: "user/profile/upload/",
             data: fd,
             method: "POST",
             processData: false,

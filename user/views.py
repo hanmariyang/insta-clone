@@ -1,4 +1,3 @@
-import imp
 from django.shortcuts import render, redirect
 from .models import UserModel
 from django.http import HttpResponse
@@ -103,7 +102,7 @@ def change_password(request, id): # 비밀번호 수정
 
 class UploadProfile(APIView):
     def post(self, request):
-
+        print("test")
         # 일단 파일 불러와
         file = request.FILES['file']
 
@@ -117,7 +116,7 @@ class UploadProfile(APIView):
         profile_image = uuid_name
         nickname = request.data.get('nickname')
 
-        user = user.objects.filter(nickname).first()
+        user = UserModel.objects.filter(nickname=nickname).first()
 
         user.profile_image = profile_image
         user.save()

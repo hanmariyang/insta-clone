@@ -1,7 +1,4 @@
 
-import email
-from email.mime import image
-from turtle import update
 from uuid import uuid4
 from django.shortcuts import render, redirect
 from rest_framework.response import Response
