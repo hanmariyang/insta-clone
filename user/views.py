@@ -1,3 +1,4 @@
+import imp
 from django.shortcuts import render, redirect
 from .models import UserModel
 from django.http import HttpResponse
@@ -6,6 +7,11 @@ from django.contrib import auth # 사용자 auth 기능
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.hashers import check_password
+from rest_framework.views import APIView
+from uuid import uuid4
+import os
+from instagram.settings import MEDIA_ROOT
+from rest_framework.response import Response
 
 
 def sign_up_view(request):
@@ -17,6 +23,7 @@ def sign_up_view(request):
         nickname = request.POST.get('nickname', '')
         password = request.POST.get('password', '')
         password2 = request.POST.get('password2', '')
+        profile_image = "logo.png"
         
         if password != password2:
             return render(request, 'user/signup.html', {'error': '패스워드를 확인 해 주세요!'})
@@ -28,7 +35,7 @@ def sign_up_view(request):
             if exist_email:
                 return render(request, 'user/signup.html', {'error': '이미 존재하는 이메일입니다.'})
             else:
-                UserModel.objects.create_user(email=email, username=username, password=password, nickname=nickname)
+                UserModel.objects.create_user(email=email, username=username, password=password, nickname=nickname, profile_image=profile_image)
                 return redirect('/sign-in') # 회원가입이 완료되었으므로 로그인 페이지로 이동
     
 
@@ -92,3 +99,27 @@ def change_password(request, id): # 비밀번호 수정
             return render(request, 'content/profile_edit_password.html')
     else:
         return render(request, 'content/profile_edit_password.html')
+
+
+class UploadProfile(APIView):
+    def post(self, request):
+
+        # 일단 파일 불러와
+        file = request.FILES['file']
+
+        uuid_name = uuid4().hex
+        save_path = os.path.join(MEDIA_ROOT, uuid_name)
+
+        with open(save_path, 'wb+') as destination:
+            for chunk in file.chunks():
+                destination.write(chunk)
+
+        profile_image = uuid_name
+        nickname = request.data.get('nickname')
+
+        user = user.objects.filter(nickname).first()
+
+        user.profile_image = profile_image
+        user.save()
+
+        return Response(status=200)

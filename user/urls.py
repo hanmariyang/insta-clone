@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
+from .views import UploadProfile
 
 urlpatterns = [
     path('sign-up/', views.sign_up_view,name='sign-up'),
@@ -9,4 +10,5 @@ urlpatterns = [
     path('delete/', views.delete, name='delete'),
     path('user/edit/<int:id>/', views.profile_edit, name='profile_edit'),
     path('user/password-edit/<int:id>/', views.change_password, name='password_edit'),
+    path('user/profile/upload', UploadProfile.as_view()),
 ]
