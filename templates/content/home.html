@@ -533,7 +533,7 @@
         <div style="display: flex; align-items: center; ">
             <div class="big_profile_box">
                 <img id="profile_page_button" class="profile_img"
-                    src="https://avatars.githubusercontent.com/u/113072884?v=4">
+                    src="{% get_media_prefix %}{{ user.profile_image }}">
             </div>
             <div class="name_content">
                 <span class="feed_name_txt"> {{ user.nickname }} </span>
