@@ -1,19 +1,28 @@
+# user/views.py
 from django.shortcuts import render, redirect
 from .models import UserModel
-from django.http import HttpResponse
 from django.contrib.auth import get_user_model #사용자가 있는지 검사하는 함수
 from django.contrib import auth # 사용자 auth 기능
 from django.contrib.auth.decorators import login_required
-
 from django.contrib.auth.hashers import check_password
 from rest_framework.views import APIView
 from uuid import uuid4
 import os
 from instagram.settings import MEDIA_ROOT
 from rest_framework.response import Response
+""" sign_up_view - 회원가입
+    sign_in_view - 로그인
+    logout - 로그아웃
+    delete - 회원탈퇴
+    profile_edit - 사용자 정보 수정
+    change_password - 비밀번호 변경
+    UploadProfile - 프로필 사진 변경
+    user_view, user_follow - 팔로우, 팔로워
+
+"""
 
 
-def sign_up_view(request):
+def sign_up_view(request):  #회원가입
     if request.method == 'GET':
         return render(request, 'user/signup.html')
     elif request.method == 'POST':
@@ -37,9 +46,7 @@ def sign_up_view(request):
                 UserModel.objects.create_user(email=email, username=username, password=password, nickname=nickname, profile_image=profile_image)
                 return redirect('/sign-in') # 회원가입이 완료되었으므로 로그인 페이지로 이동
     
-
-# user/views.py
-def sign_in_view(request):
+def sign_in_view(request): #로그인
     if request.method == 'POST':
         email = request.POST.get('email', '')
         password = request.POST.get('password', '')
@@ -102,6 +109,7 @@ def change_password(request, id): # 비밀번호 수정
 
 class UploadProfile(APIView):
     def post(self, request):
+
         # 일단 파일 불러와
         file = request.FILES['file']
 
@@ -121,3 +129,24 @@ class UploadProfile(APIView):
         user.save()
 
         return Response(status=200)
+
+# user/views.py 
+
+@login_required
+def user_view(request):
+    if request.method == 'GET':
+        # 사용자를 불러오기, exclude와 request.user.username 를 사용해서 '로그인 한 사용자'를 제외하기
+        user_list = UserModel.objects.all().exclude(username=request.user.username)
+        return render(request, 'user/user_list.html', {'user_list': user_list})
+
+
+@login_required
+def user_follow(request, id):
+    me = request.user
+    click_user = UserModel.objects.get(id=id)
+    if me in click_user.followee.all():
+        click_user.followee.remove(request.user)
+    else:
+        click_user.followee.add(request.user)
+    return redirect('/user')
+

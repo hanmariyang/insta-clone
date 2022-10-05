@@ -27,7 +27,7 @@
         </div>
 
         <div style="margin-bottom: 20px">
-            게시물 팔로워 팔로잉
+            팔로우 : {{ user.followee.count }} 명 / 팔로우 : {{ user.follow.count }} 명
         </div>
         <div>
             <b>{{ user.name }}</b>
@@ -167,7 +167,6 @@
             }
         });
     }
+
 </script>
-
-
 {% endblock %}
