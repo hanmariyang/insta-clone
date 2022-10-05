@@ -3,6 +3,8 @@ from uuid import uuid4
 from django.shortcuts import render, redirect
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from user.models import UserModel
 from .models import Feed
 import os
 from instagram.settings import MEDIA_ROOT
@@ -69,7 +71,15 @@ def modify(request, id):
         return redirect("/")
 
 def profile(request):
-    return render(request, 'content/profile.html')
+    if request.method == 'GET':
+        user = request.user.is_authenticated
+        if user:
+            nickname = request.session.get('nickname', None)
+            print(nickname)
+            feed_list = Feed.objects.filter(user_id=nickname).order_by('-created_at')
+            return render(request, 'content/profile.html', {'feed_list':feed_list})
+        else:
+            return redirect('/sign-in')
 
 
 def profile_edit_page(request):
@@ -79,3 +89,7 @@ def profile_edit_page(request):
 def profile_edit_password(request):
     if request.method == "GET":
         return render(request, 'content/profile_edit_password.html')
+
+
+        
+    
