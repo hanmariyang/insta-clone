@@ -70,16 +70,16 @@ def modify(request, id):
         feed.save()
         return redirect("/")
 
-def profile(request):
-    if request.method == 'GET':
-        user = request.user.is_authenticated
-        if user:
-            nickname = request.session.get('nickname', None)
-            print(nickname)
-            feed_list = Feed.objects.filter(user_id=nickname).order_by('-created_at')
-            return render(request, 'content/profile.html', {'feed_list':feed_list})
-        else:
-            return redirect('/sign-in')
+# def profile(request):
+#     if request.method == 'GET':
+#         user = request.user.is_authenticated
+#         if user:
+#             nickname = request.session.get('nickname')
+#             print(nickname)
+#             feed_list = Feed.objects.filter(user_id=nickname).order_by('-created_at')
+#             return render(request, 'content/profile.html', {'feed_list':feed_list})
+#         else:
+#             return redirect('/sign-in')
 
 
 def profile_edit_page(request):
@@ -89,6 +89,16 @@ def profile_edit_page(request):
 def profile_edit_password(request):
     if request.method == "GET":
         return render(request, 'content/profile_edit_password.html')
+
+class profile(APIView):
+    def get(self, request):
+        user = request.user.is_authenticated
+        if user:
+            feed_list = Feed.objects.all().order_by('-created_at')
+            return render(request, 'content/profile.html', {'feed_list':feed_list})
+        else:
+            return redirect('/sign-in')
+
 
 
         
