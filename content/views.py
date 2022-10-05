@@ -8,6 +8,7 @@ from user.models import UserModel
 from .models import Feed
 import os
 from instagram.settings import MEDIA_ROOT
+from django.contrib import auth 
 
 
 # Create your views here.
@@ -94,7 +95,7 @@ class profile(APIView):
     def get(self, request):
         user = request.user.is_authenticated
         if user:
-            feed_list = Feed.objects.all().order_by('-created_at')
+            feed_list = Feed.objects.filter(user_id=request.user.nickname).order_by('-created_at')
             return render(request, 'content/profile.html', {'feed_list':feed_list})
         else:
             return redirect('/sign-in')
