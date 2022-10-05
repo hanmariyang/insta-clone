@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect
 from .models import UserModel
 from django.contrib.auth import get_user_model #사용자가 있는지 검사하는 함수
-from django.contrib import auth # 사용자 auth 기능
+from django.contrib import auth, messages # 사용자 auth 기능
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password
 from rest_framework.views import APIView
@@ -40,8 +40,11 @@ def sign_up_view(request):  #회원가입
                 return render(request, 'user/signup.html', {'error': '이메일과 패스워드를 입력해주세요.'})
             
             exist_email = get_user_model().objects.filter(email=email)
+            exist_nickname = get_user_model().objects.filter(nickname=nickname)
             if exist_email:
                 return render(request, 'user/signup.html', {'error': '이미 존재하는 이메일입니다.'})
+            elif exist_nickname:
+                return render(request, 'user/signup.html', {'error': '이미 존재하는 닉네임입니다.'})
             else:
                 UserModel.objects.create_user(email=email, username=username, password=password, nickname=nickname, profile_image=profile_image)
                 return redirect('/sign-in') # 회원가입이 완료되었으므로 로그인 페이지로 이동
@@ -81,7 +84,7 @@ def profile_edit(request, id):  # 사용자 정보 수정(이름,닉네임,이�
     if request.method == 'POST':
         user = UserModel.objects.get(id=id)
         user.username = request.POST.get('username')
-        user.nickname = request.POST.get('nickname')
+        # user.nickname = request.POST.get('nickname')
         user.email = request.POST.get('email')
         user.save()
         return redirect("/")
@@ -107,7 +110,7 @@ def change_password(request, id): # 비밀번호 수정
         return render(request, 'content/profile_edit_password.html')
 
 
-class UploadProfile(APIView):
+class UploadProfile(APIView): # 프로필 사진 업로드
     def post(self, request):
 
         # 일단 파일 불러와
@@ -121,9 +124,9 @@ class UploadProfile(APIView):
                 destination.write(chunk)
 
         profile_image = uuid_name
-        nickname = request.data.get('nickname')
+        id = request.data.get('id')
 
-        user = UserModel.objects.filter(nickname=nickname).first()
+        user = UserModel.objects.filter(id=id).first()
 
         user.profile_image = profile_image
         user.save()
@@ -132,7 +135,7 @@ class UploadProfile(APIView):
 
 # user/views.py 
 
-@login_required
+@login_required  # 팔로우, 팔로워 
 def user_view(request):
     if request.method == 'GET':
         # 사용자를 불러오기, exclude와 request.user.username 를 사용해서 '로그인 한 사용자'를 제외하기
@@ -140,7 +143,7 @@ def user_view(request):
         return render(request, 'user/user_list.html', {'user_list': user_list})
 
 
-@login_required
+@login_required # 팔로우, 팔로워 
 def user_follow(request, id):
     me = request.user
     click_user = UserModel.objects.get(id=id)

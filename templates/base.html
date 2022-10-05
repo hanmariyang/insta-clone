@@ -410,8 +410,12 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom"
         style="width: 100%;height: 50px; position: fixed;">
         <div class="container">
-            <img id="nav_bar_logo_bt" style="height: 30px; object-fit: contain; cursor: pointer;" src="/static/img/logo.png">
-            <input class="form-control" style="width: 200px" type="search" placeholder="Search" aria-label="Search">
+            <img style="height: 30px; object-fit: contain" 
+            src="/static/img/logo.png">
+            <form class="d-flex" method="post" action="{% url 'search' %}">
+                {% csrf_token %}
+                <input class="form-control" style="width: 200px" type="search" placeholder="Search" aria-label="Search">
+            </form>
             <div>
                 <form class="form-inline my-2 my-lg-0">
                     <ul class="navbar-nav mr-auto">
@@ -504,6 +508,9 @@
                         style="width: 50vh; height: 60%; max-width: 300px; max-height: 360px; min-width: 55%; min-height: 40%; border: none; outline: none; padding-left: 10px;"
                         placeholder="문구 입력..."></textarea>
                     <textarea
+                    <label for="tag"
+                    <input type="text" class="form-control" name="tag" id="tag"
+                    style="width: 50vh; height: 20%; max-width: 300px; max-height: 180px; min-width: 55%; min-height: 20%; border: none; outline: none; padding-left: 10px;"
                         style="width: 50vh; height: 30%; max-width: 300px; max-height: 180px; min-width: 55%; min-height: 20%; border: none; outline: none; padding-left: 10px;"
                         placeholder="#해시 #태그..."></textarea>
                     <div style="display: flex; flex-direction: row; justify-content: space-between;">
@@ -602,7 +609,7 @@
         /* 이미지 업로드 */
 
         $('#feed_create_button').click(function () {
-            alert("공유하기 눌렀다.");
+            alert("공유완료!.");
 
             let file = files[0];
             let image = files[0].name;
@@ -611,10 +618,12 @@
             let profile_image = "{{ user.profile_image }}"
             let created_at = new Date();
             let updated_at = new Date();  
+            let tag = $('#tag').val()
 
             let fd = new FormData();
 
             fd.append('file', file);
+            fd.append('tag', tag)
             fd.append('image', image);
             fd.append('content', content);
             fd.append('user_id', user_id);

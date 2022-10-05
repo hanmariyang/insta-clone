@@ -72,7 +72,8 @@
     <div style="display: flex; flex-direction: column; display: inline-block; margin: auto auto auto 10px;">
         <div class="sign_in_right_box" style="display: inline-block; border: solid 1px lightgray;">
             <img style="height: 70px; margin: 40px 0 40px 0; object-fit: contain" src="/static/img/logo.png">
-            <form class="form-area" action="/sign-in/" method="post">
+            {% comment %} <form class="form-area" action="/sign-in/" method="post"> {% endcomment %}
+            <form class="form-area" action="{% url 'sign-in' %}" method="POST">
                 {% csrf_token %}
                 <div class="form-group mt-2 mb-2">
                     <input type="text" style="width: 400px; margin-left: 50px; background-color: #fafafa;" class="form-control" id="email" name="email" placeholder="이메일">

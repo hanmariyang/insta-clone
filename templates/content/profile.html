@@ -138,12 +138,12 @@
     function profile_upload() {
         let file = $('#input_fileupload')[0].files[0];
 
-        let nickname = "{{ user.nickname }}";
+        let id = "{{ user.id }}";
 
         let fd = new FormData();
 
         fd.append('file', file);
-        fd.append('nickname', nickname);
+        fd.append('id', id);
         fd.append('csrfmiddlewaretoken', "{{ csrf_token }}");
 
 

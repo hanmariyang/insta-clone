@@ -1,0 +1,17 @@
+# 각자의 상황에 맞게 'base.html' 부분은 변경하시면 됩니다.
+{% block content %}
+
+{% if searched %}   {% comment %}만약, 검색창에 입력한 값이 있다면 이라는 의미입니다. {% endcomment %}
+                <h1> 검색하신 {{ searched }}  정보입니다. </h1>              
+
+        {% for search in searched %}       
+                {{ search.user_id }} <br>
+                {{ search.content }}
+
+
+
+{% endfor %}
+{% else %} {% comment %} 검색창에 아무것도 입력하지 않았을 경우 뜨는 메시지입니다. {% endcomment %}
+<h1> 찾고 있는 이름을 검색창에 입력해주세요. </h1>
+{% endif %}
+{% endblock %}

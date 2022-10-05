@@ -20,10 +20,12 @@
                 </div>
                 <div style="width: 35vw; height: 4vh; min-height: 40px; margin-top: 2.5vh;"> 
                     <b style="font-size: 16pt;">{{ user.nickname }}</b>
+                    {{ user.email }}
                 </div>
             </div>
             <form></form>
-            <form action="/user/edit/{{ user.id }}/" method='POST'>
+            {% comment %} <form action="/user/edit/{{ user.id }}/" method='POST'> {% endcomment %}
+            <form action="{% url 'profile-edit' user.id %}" method="POST">
                 {% csrf_token %}
                 <div style="display: flex; flex-direction: row;">
                     <div style="width: 15vw; height: 12vh; min-height: 120px; margin: 1vh 30px 0 0; text-align: right;"> <b>이름</b> </div>
@@ -33,18 +35,13 @@
                             이름은 14일 안에 두 번만 변경할 수 있습니다.</div>
                     </div>
                 </div>
-                <div style="display: flex; flex-direction: row;">
+                {% comment %} <div style="display: flex; flex-direction: row;">
                     <div style="width: 15vw; height: 8vh; min-height: 80px; margin: 1vh 30px 0 0; text-align: right;"> <b>사용자 이름</b> </div>
                     <div style="width: 35vw; height: 8vh; min-height: 80px; margin-top: 1vh;">
                         <input type="text" style="border: solid 1px lightgray; border-radius: 3px; width: 25vw;" name="nickname">
                         <div style="font-size: 10pt; color: gray; width: 25vw;">대부분의 경우 이후 14일 동안 사용자 이름을 다시 {{ user.nickname }}(으)로 변경할 수 있습니다.</div>
                     </div>
-                </div>
-                {% comment %} <div style="display: flex; flex-direction: row;">
-                    <div style="width: 15vw; height: 10vh; min-height: 100px; margin: 1vh 30px 0 0; text-align: right;"> <b>소개</b> </div>
-                    <div style="width: 35vw; height: 10vh; min-height: 100px; margin-top: 1vh;"><input type="text" style="border: solid 1px lightgray; border-radius: 3px; width: 25vw; height: 10vh; min-height: 100px;"></div>
                 </div> {% endcomment %}
-
                 <div style="display: flex; flex-direction: row;">
                     <div style="width: 15vw; height: 4vh; min-height: 40px; margin: 1vh 30px 0 0; text-align: right;"> <b>이메일</b> </div>
                     <div style="width: 35vw; height: 4vh; min-height: 40px;  margin-top: 1vh;"><input type="text" style="border: solid 1px lightgray; border-radius: 3px; width: 25vw;" name="email"></div>

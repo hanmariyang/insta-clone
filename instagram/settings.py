@@ -39,8 +39,14 @@ INSTALLED_APPS = [
     #provider #추가
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
+    
+    'taggit.apps.TaggitAppConfig',
+    'taggit_templatetags2',
 
 ]
+
+TAGGIT_CASE_INSENSITIVE =True
+TAGGIT_LIMIT = 50
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

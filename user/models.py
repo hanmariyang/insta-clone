@@ -20,4 +20,4 @@ class UserModel(AbstractUser):
     REQUIRED_FIELDS = ['username']
     
     follow = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='followee')
-    
+   

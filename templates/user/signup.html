@@ -34,7 +34,8 @@
         <hr style="width: 100px;">
       </div>
       <div class="wrap">
-        <form class="form-area" method="post" action="/sign-up/">
+        {% comment %} <form class="form-area" method="post" action="/sign-up/"> {% endcomment %}
+        <form action="{% url 'sign-up' %}" method="POST">
           {% csrf_token %}
           <div class="form-group mt-2 mb-2">
             <input type="email" style="width: 300px; margin-left: 50px; background-color: #fafafa;" class="form-control"

@@ -50,6 +50,16 @@
             <!-- 피드 본문 내용 -->
             <div class="feed_content">
                 <p class="feed_txt"> <b>{{ feed.user_id }}</b> {{ feed.content }}
+                    {% if feed.tags %}
+                    {% for tag in feed.tags.all %}                                      
+                    {% comment %} href="{% url 'tagged_object_list' tag.name %}"> {% endcomment %}
+                    <span class="badge rounded-pill bg-success">
+                    {{ tag.name }}
+                    </span>
+                    </a>
+                    {% endfor %}
+                    {% comment %} href="{% url 'tag_cloud' %}">TagCloud</a> {% endcomment %}
+                    {% endif %}
             </div>
             <!-- 피드 댓글 -->
             <div class="feed_reply">
@@ -58,22 +68,21 @@
                 <span class="feed_txt"> <b> adsfg34 </b> 대박 </span>
             </div>
             <!-- 피드 댓글달기 -->
-            <div
-                style="display: flex; flex-direction: row; justify-content: space-between; padding: 10px 10px 0 10px; border-top: solid 1px lightgray;">
-                <div style="display: flex; flex-direction: row;">
-                    <span class="material-icons-outlined">
-                        sentiment_satisfied
-                    </span>
-                    <textarea style="width: 360px; height: 30px; border: none; outline: none;" placeholder="댓글 달기..."
-                        onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
-                </div>
-                <div style="width: 40px;">
+            <form></form>
+            <form method="post" action="/tweet/comment/{{feed.id}}/">
+                {% csrf_token %}
+                <div style="display: flex; flex-direction: row; justify-content: space-between; padding: 10px 10px 0 10px; border-top: solid 1px lightgray;">
+                    <div style="display: flex; flex-direction: row;">
+                        <label for="content">댓글</label>
+                        <input id="content" type="text" name="content" > 
+                    </div>
+                    <div style="width: 40px;">
 
+                    </div>
+                    <input class="link_txt" type="submit">
+                        게시                    
                 </div>
-                <a class="link_txt">
-                    게시
-                </a>
-            </div>
+            </form>
         </div>
         <!-- 홈 피드 모달 팝업 -->
         <div id="home_feed_modal_{{feed.id}}" class="modal_overlay_home_feed">
@@ -312,6 +321,7 @@
                         </div>
                         <form></form>
                         <form action="/content/modify/{{feed.id}}/" method='POST'>
+                        {% comment %} <form action="{% url 'content-modify' feed.id %}" method="POST"> {% endcomment %}
                             {% csrf_token %}
                             <textarea id="input_feed_edit_content"
                                 style="width: 50vh; height: 60%; max-width: 300px; max-height: 360px; min-width: 55%; min-height: 40%; border: none; outline: none; padding-left: 10px;"
@@ -357,7 +367,8 @@
                         </div>
                         <span class="feed_name_txt"> {{ user.nickname }} </span>
                     </div>
-                    <form action="/content/modify/{{feed.id}}/" method='POST'>
+                    {% comment %} <form action="/content/modify/{{feed.id}}/" method='POST'> {% endcomment %}
+                    <form action="{% url 'content-modify' feed.id %}" method="POST">
                         {% csrf_token %}
                         <textarea id="input_feed_edit_content"
                             style="width: 50vh; height: 60%; max-width: 300px; max-height: 360px; min-width: 55%; min-height: 40%; border: none; outline: none; padding-left: 10px;"
@@ -618,10 +629,10 @@
         </div>
     </div>
     <div class="comment_box">
-        <span> 팜스타그램 </span>
-        <span> https://hanmari-code.tistory.com/ </span>
+        <span> 짭스타그램 </span>
+        <span> Jjapstagram.com/ </span>
         <br>
-        <span> @2022 hanmari-code </span>
+        <span> @2022 SSajiBang </span>
 
     </div>
 </div>
