@@ -3,12 +3,10 @@ from uuid import uuid4
 from django.shortcuts import render, redirect
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from user.models import UserModel
 from .models import Feed
 import os
 from instagram.settings import MEDIA_ROOT
-from django.contrib import auth 
 
 
 # Create your views here.
