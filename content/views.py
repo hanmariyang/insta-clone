@@ -24,15 +24,36 @@ from .models import TweetComment
 
 # Create your views here.
 
-def home(request): # home 화면
-    if request.method == 'GET' :
-        user = request.user.is_authenticated  # 사용자가 인증을 받았는지 (로그인이 되어있는지)
+def home(request): 
+    if request.method == 'GET':
+        user = request.user.is_authenticated
         if user:
             feeds = Feed.objects.all().order_by('-created_at')
             return render(request, 'content/home.html', {'feeds': feeds})
         else:
             return redirect('/sign-in')
 
+
+# class home(APIView):
+#     def get(self, request): # home 화면
+
+#         user = request.user.is_authenticated
+#         if user:
+#             feeds = Feed.objects.all().order_by('-created_at')
+#             feed_list = []
+            
+#             for feed in feeds:
+#                 user = UserModel.objects.filter(nickname=feed.user_id).first()
+#                 comments = TweetComment.objects.filter(feed_id=feed.id)
+#                 comments_list = []
+#                 for comment in comments:
+#                     user = UserModel.objects.filter(id=comment.user_id).first()
+#                     comments_list.append(dict(content=comment.content, nickname=user.nickname))
+#                 feed_list.append(dict(id=feed.id, image=feed.image, content=feed.content, profile_image=feed.profile_image, nickname=user.nickname, comments_list=comments_list))
+
+#             return render(request, 'content/home.html', {'feed_list': feed_list}, {'comment_list':comments_list })
+#         else:
+#             return redirect('/sign-in')
 
 def content(request): # content 화면
     if request.method == 'GET':
@@ -42,6 +63,26 @@ def content(request): # content 화면
             return render(request, 'content/home.html', {'feeds': feeds})
         else:
             return redirect('/sign-in')
+
+# class content(APIView):
+#     def get(self, request): # home 화면
+#         user = request.user.is_authenticated
+#         if user:
+#             feeds = Feed.objects.all().order_by('-created_at')
+#             feed_list = []
+            
+#             for feed in feeds:
+#                 user = UserModel.objects.filter(nickname=feed.user_id).first()
+#                 comments = TweetComment.objects.filter(feed_id=feed.id)
+#                 comments_list = []
+#                 for comment in comments:
+#                     user = UserModel.objects.filter(id=comment.user_id).first()
+#                     comments_list.append(dict(content=comment.content, nickname=user.nickname))
+#                 feed_list.append(dict(id=feed.id, image=feed.image, content=feed.content, profile_image=feed.profile_image, nickname=user.nickname, comments_list=comments_list))
+
+#             return render(request, 'content/home.html', {'feed_list': feed_list}, {'comment_list':comments_list })
+#         else:
+#             return redirect('/sign-in')
 
 
 class UploadFeed(APIView): # 게시글 업로드
